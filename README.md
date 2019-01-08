@@ -1,45 +1,22 @@
-<a name="README">[<img src="https://rawgithub.com/jasmine/jasmine/master/images/jasmine-horizontal.svg" width="400px" />](http://jasmine.github.io)</a>
-
-[![Build Status](https://travis-ci.org/jasmine/jasmine.svg?branch=master)](https://travis-ci.org/jasmine/jasmine)
-[![Open Source Helpers](https://www.codetriage.com/jasmine/jasmine/badges/users.svg)](https://www.codetriage.com/jasmine/jasmine)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjasmine%2Fjasmine.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjasmine%2Fjasmine?ref=badge_shield)
-
 # A JavaScript Testing Framework
 
 Jasmine is a Behavior Driven Development testing framework for JavaScript. It does not rely on browsers, DOM, or any JavaScript framework. Thus it's suited for websites, [Node.js](http://nodejs.org) projects, or anywhere that JavaScript can run.
 
-Documentation & guides live here: [http://jasmine.github.io](http://jasmine.github.io/)
-For a quick start guide of Jasmine, see the beginning of [http://jasmine.github.io/edge/introduction.html](http://jasmine.github.io/edge/introduction.html)
+## 文件目录
 
-Upgrading from Jasmine 2.x? Check out the [3.0 release notes](https://github.com/jasmine/jasmine/blob/v3.0.0/release_notes/3.0.md) for a list of what's new (including breaking changes).
+/lib 文件夹下包含了测试框架的源码等文件。<br>
+/src 下包含了待测试的 JS 代码。<br>
+/spec 下则包含了对应的测试代码。<br>
 
-## Contributing
+在 SpecRunner.html 中，务必要先引入所有 jasmine 的依赖文件：<br>
+     jasmine.css<br>
+     jasmine.js<br>
+     jasmine-html.js<br>
+     boot.js<br>
+     
+再引入待测试文件 ，最后则是我们的测试文件
 
-Please read the [contributors' guide](https://github.com/jasmine/jasmine/blob/master/.github/CONTRIBUTING.md)
 
-## Installation
-
-For the Jasmine NPM module:<br>
-[https://github.com/jasmine/jasmine-npm](https://github.com/jasmine/jasmine-npm)
-
-For the Jasmine Ruby Gem:<br>
-[https://github.com/jasmine/jasmine-gem](https://github.com/jasmine/jasmine-gem)
-
-For the Jasmine Python Egg:<br>
-[https://github.com/jasmine/jasmine-py](https://github.com/jasmine/jasmine-py)
-
-For the Jasmine headless browser gulp plugin:<br>
-[https://github.com/jasmine/gulp-jasmine-browser](https://github.com/jasmine/gulp-jasmine-browser)
-
-To install Jasmine standalone on your local box (where **_{#.#.#}_** below is substituted by the release number downloaded):
-
-* Download the standalone distribution for your desired release from the [releases page](https://github.com/jasmine/jasmine/releases)
-* Create a Jasmine directory in your project - `mkdir my-project/jasmine`
-* Move the dist to your project directory - `mv jasmine/dist/jasmine-standalone-{#.#.#}.zip my-project/jasmine`
-* Change directory - `cd my-project/jasmine`
-* Unzip the dist - `unzip jasmine-standalone-{#.#.#}.zip`
-
-Add the following to your HTML file:
 
 ```html
 <link rel="shortcut icon" type="image/png" href="jasmine/lib/jasmine-{#.#.#}/jasmine_favicon.png">
@@ -48,35 +25,112 @@ Add the following to your HTML file:
 <script type="text/javascript" src="jasmine/lib/jasmine-{#.#.#}/jasmine.js"></script>
 <script type="text/javascript" src="jasmine/lib/jasmine-{#.#.#}/jasmine-html.js"></script>
 <script type="text/javascript" src="jasmine/lib/jasmine-{#.#.#}/boot.js"></script>
+
+  <!-- include source files here... -->
+    <!--<script src="src/Hello.js"></script>-->
+    <script src="js/HelloNode.js"></script>
+
+    <!--&lt;!&ndash; include spec files here... &ndash;&gt;-->
+    <script src="spec/test/Hello.matcher.js"></script>
+    <script src="spec/test/HelloNode.spec.js"></script>
 ```
 
-## Supported environments
+## 使用 Jasmine 测试 Node 项目  
 
-Jasmine tests itself across many browsers (Safari, Chrome, Firefox, PhantomJS, Microsoft Edge, and new Internet Explorer) as well as nodejs. To see the exact version tests are run against look at our [.travis.yml](https://github.com/jasmine/jasmine/blob/master/.travis.yml)
+*新建待测试文件
+
+```javascript
+function Hello() {};
+
+Hello.prototype.foo = "foo";
+Hello.prototype.bar = null    ;
+
+Hello.prototype.helloWorld = function() {
+    return "Hello World!";
+}
+
+Hello.prototype.helloSomeone = function(toGreet) {
+    return this.sayHello() + " " + toGreet;
+}
+
+Hello.prototype.sayHello = function() {
+    return "Hello";
+}
+
+module.exports = Hello;
+```
+
+* 安装 Jasmine Module  如果没有安装，那么就使用安装
+```text
+npm install -g jasmine
+
+jasmine -v
+```
+   
+* 初始化 (可以手动添加，也可以使用命令)
+
+```text
+jasmine init 
+jasmine 会在当前目录下生成一个配置文件 spec/support/jasmine.json
+```
+
+```json
+{
+  "spec_dir": "spec",
+  "spec_files": [
+    "**/*[sS]pec.js"
+  ],
+  "helpers": [
+    "helpers/**/*.js"
+  ],
+  "stopSpecOnExpectationFailure": false,
+  "random": false
+}
+```
+          spec_dir: 指定扫描测试文件的根目录  <br>
+          spec_files: 匹配测试文件的表达式<br>
+          helpers: Helper 文件会在所有的 spec 之前预先执行<br>
+          stopSpecOnExpectationFailure: 当有错误出现时是否终止所有测试<br>
+          random: 是否打乱测试顺序<br>
+          
+          
 
 
-## Support
+* 添加测试代码
 
-* Search past discussions: [http://groups.google.com/group/jasmine-js](http://groups.google.com/group/jasmine-js)
-* Send an email to the list: [jasmine-js@googlegroups.com](mailto:jasmine-js@googlegroups.com)
-* View the project backlog at Pivotal Tracker: [http://www.pivotaltracker.com/projects/10606](http://www.pivotaltracker.com/projects/10606)
-* Follow us on Twitter: [@JasmineBDD](http://twitter.com/JasmineBDD)
+```javascript
+ var Hello = require("../js/HelloNode");
+```
+    这里带测试代码的路径请注意
+    
+* 运行测试 jasmine
+     <br>此时的测试通过的用例都是绿色的小点，不利于调试
 
-## Maintainers
+* 运行测试 安装jasmine-spec-reporter
 
-* [Gregg Van Hove](mailto:gvanhove@pivotal.io), Pivotal Labs
+```text
+npm install jasmine --save-dev
+npm install jasmine-spec-reporter --save-dev
+```
+    然后在项目根目录，添加 jasmine-runner.js
+````javascript
+var Jasmine = require('jasmine');
+var SpecReporter = require('jasmine-spec-reporter').SpecReporter;
+var noop = function () {
+};
 
-### Maintainers Emeritus
+var jrunner = new Jasmine();
+jrunner.configureDefaultReporter({print: noop});
+jasmine.getEnv().clearReporters();
+jasmine.getEnv().addReporter(new SpecReporter({
+    spec: {
+        displayPending: true
+    }
+}));
+jrunner.loadConfigFile();
+jrunner.execute();
+````
 
-* [Davis W. Frank](mailto:dwfrank@pivotal.io), Pivotal Labs
-* [Rajan Agaskar](mailto:rajan@pivotal.io), Pivotal Labs
-* [Greg Cobb](mailto:gcobb@pivotal.io), Pivotal Labs
-* [Chris Amavisca](mailto:camavisca@pivotal.io), Pivotal Labs
-* [Christian Williams](mailto:antixian666@gmail.com), Cloud Foundry
-* Sheel Choksi
-
-Copyright (c) 2008-2018 Pivotal Labs. This software is licensed under the MIT License.
+    运行命令node jasmine-runner.js
 
 
-## License
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjasmine%2Fjasmine.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjasmine%2Fjasmine?ref=badge_large)"# jasmine" 
