@@ -1,10 +1,10 @@
 {
-  "name": "jasmine-core",
-  "license": "MIT",
-  "version": "3.3.0",
+  "name": "jasmine",
+  "license": "",
+  "version": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jasmine/jasmine.git"
+    "url": ""
   },
   "keywords": [
     "test",
