@@ -132,5 +132,11 @@ jrunner.execute();
 ````
 
     运行命令node jasmine-runner.js
+    
+## 语法规则   
+[官网](https://jasmine.github.io/index.html)
+[基本语法](http://www.cnblogs.com/wushangjue/p/4541209.html) 
+   
+    
 
 
